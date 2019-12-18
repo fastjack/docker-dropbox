@@ -6,13 +6,9 @@ ENV DEBIAN_FRONTEND noninteractive
 # Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 RUN  apt-get -qqy update \
 	&& apt-get -qqy install ca-certificates curl gnupg2 libatomic1 \
-	&& apt-get -qqy autoclean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN echo 'deb http://linux.dropbox.com/ubuntu bionic  main' > /etc/apt/sources.list.d/dropbox.list \
-	&& apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
-
-RUN apt-get -qqy update \
+	&& echo 'deb http://linux.dropbox.com/ubuntu bionic  main' > /etc/apt/sources.list.d/dropbox.list \
+	&& apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
+	&& apt-get -qqy update \
 	&& apt-get -qqy install dropbox python3-gpg  \
 	&& apt-get -qqy autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -24,8 +20,8 @@ RUN	groupadd dropbox \
 # Dropbox is weird: it insists on downloading its binaries itself via 'dropbox
 # start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
 USER dropbox
-RUN mkdir -p /dbox/.dropbox /dbox/.dropbox-dist /dbox/Dropbox /dbox/base \
-	&& echo y | dropbox start -i
+RUN mkdir -p /dbox/.dropbox /dbox/.dropbox-dist /dbox/Dropbox /dbox/base
+RUN sh -c '/bin/echo -e "y\n" | dropbox start -i'
 
 # Switch back to root, since the run script needs root privs to chmod to the user's preferrred UID
 USER root
