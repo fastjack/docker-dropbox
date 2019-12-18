@@ -10,7 +10,7 @@ RUN  apt-get -qqy update \
 	&& echo 'deb http://linux.dropbox.com/ubuntu bionic  main' > /etc/apt/sources.list.d/dropbox.list \
 	&& apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
-	&& apt-get -qqy install dropbox python3-gpg  \
+	&& apt-get -qqy install dropbox python3-gpg  locales \
 	&& apt-get -qqy autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -49,7 +49,6 @@ COPY run /root/
 COPY dropbox /usr/bin/dropbox
 
 # from https://stackoverflow.com/a/38553499
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
         update-locale LANG=en_US.UTF-8
