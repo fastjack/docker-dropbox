@@ -1,25 +1,25 @@
 # Dropbox in Docker
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/janeczku/dropbox.svg?maxAge=2592000)][hub]
-[![License](https://img.shields.io/github/license/janeczku/docker-alpine-kubernetes.svg?maxAge=2592000)]()
+[![Docker Pulls](https://img.shields.io/docker/pulls/purcaro/dropbox.svg?maxAge=2592000)][hub]
+[![License](https://img.shields.io/github/license/purcaro/docker-alpine-kubernetes.svg?maxAge=2592000)]()
 
-[hub]: https://hub.docker.com/r/janeczku/dropbox/
+[hub]: https://hub.docker.com/r/purcaro/dropbox/
 
 Run Dropbox inside Docker. Fully working with local host folder mount or inter-container linking (via `--volumes-from`).
 
-This repository provides the [janeczku/dropbox](https://registry.hub.docker.com/u/janeczku/dropbox/) image.
+This repository provides the [purcaro/dropbox](https://registry.hub.docker.com/u/purcaro/dropbox/) image.
 
 ## Usage examples
 
 ### Quickstart
 
-    docker run -d --restart=always --name=dropbox janeczku/dropbox
+    docker run -d --restart=always --name=dropbox purcaro/dropbox
 
 ### Dropbox data mounted to local folder on the host
 
     docker run -d --restart=always --name=dropbox \
     -v /path/to/localfolder:/dbox/Dropbox \
-    janeczku/dropbox
+    purcaro/dropbox
 
 ### Run dropbox with custom user/group id
 This fixes file permission errrors that might occur when mounting the Dropbox file folder (`/dbox/Dropbox`) from the host or a Docker container volume. You need to set `DBOX_UID`/`DBOX_GID` to the user id and group id of whoever owns these files on the host or in the other container.
@@ -27,13 +27,13 @@ This fixes file permission errrors that might occur when mounting the Dropbox fi
     docker run -d --restart=always --name=dropbox \
     -e DBOX_UID=110 \
     -e DBOX_GID=200 \
-    janeczku/dropbox
+    purcaro/dropbox
 
 ### Enable LAN Sync
 
     docker run -d --restart=always --name=dropbox \
     --net="host" \
-    janeczku/dropbox
+    purcaro/dropbox
 
 ## Linking to Dropbox account after first start
 
