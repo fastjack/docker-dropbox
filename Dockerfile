@@ -1,3 +1,4 @@
+# mostly from https://github.com/janeczku/docker-dropbox
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -46,6 +47,13 @@ RUN mkdir -p /opt/dropbox \
 # Install init script and dropbox command line wrapper
 COPY run /root/
 COPY dropbox /usr/bin/dropbox
+
+# from https://stackoverflow.com/a/38553499
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+        update-locale LANG=en_US.UTF-8
+ENV LANG en_US.UTF-8 
 
 WORKDIR /dbox/Dropbox
 EXPOSE 17500
